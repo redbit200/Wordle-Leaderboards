@@ -7,7 +7,7 @@ module.exports = {
         //Log Bot's username and the amount of servers its in to console
         console.log(`${bot.user.username} is online on ${bot.guilds.cache.size} servers!`);
 
-        let scheduledMessage = new cron.CronJob('51 16 * * *', () => {
+        let scheduledMessage = new cron.CronJob('59 23 * * *', () => {
             let scores = { '1': [], '2': [], '3': [], '4': [], '5': [], '6': [], 'X': [] };
             let lowestScore = 6;
             const wordleChannel = bot.channels.cache.get('936688898137010277');
