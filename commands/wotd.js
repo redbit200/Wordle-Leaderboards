@@ -1,9 +1,9 @@
-exports.run = async (bot, message, args) => {
+exports.run = async (bot, message = false, args = []) => {
+
     let scores = { '1': [], '2': [], '3': [], '4': [], '5': [], '6': [], 'X': [] };
     let lowestScore = 6;
     const wordleChannel = bot.channels.cache.get('936688898137010277');
     wordleChannel.messages.fetch({ limit: 100 }).then(wordleMessages => {
-        console.log(`Received ${wordleMessages.size} messages`);
         //Iterate through the messages here with the variable "messages".
         wordleMessages.forEach(wordleMessage => {
             if (isWordleMessage(wordleMessage)) {
@@ -17,8 +17,11 @@ exports.run = async (bot, message, args) => {
         })
     })
     setTimeout( () => {
-        console.log(scores);
-        message.channel.send("Today's best Wordler('s):\n" + scores[lowestScore] + "\n" + "Best Score: " + lowestScore);
+        if (message == false) {
+            wordleChannel.send("Today's best Wordler('s):\n" + scores[lowestScore] + "\n" + "Best Score: " + lowestScore);
+        } else {
+            message.channel.send("Today's best Wordler('s):\n" + scores[lowestScore] + "\n" + "Best Score: " + lowestScore);
+        }
     }, 500);
 }
 
