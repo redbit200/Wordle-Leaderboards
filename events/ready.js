@@ -7,24 +7,29 @@ module.exports = {
         //Log Bot's username and the amount of servers its in to console
         console.log(`${bot.user.username} is online on ${bot.guilds.cache.size} servers!`);
 
-        let scheduledMessage = new cron.CronJob('59 23 * * *', () => {
-            let currentWinners = [];
+        let scheduledMessage = new cron.CronJob('51 16 * * *', () => {
+            let scores = { '1': [], '2': [], '3': [], '4': [], '5': [], '6': [], 'X': [] };
             let lowestScore = 6;
-            wordleChannel.messages.fetch({ limit: 50 }).then(messages => {
-                console.log(`Received ${messages.size} messages`);
+            const wordleChannel = bot.channels.cache.get('936688898137010277');
+            wordleChannel.messages.fetch({ limit: 100 }).then(wordleMessages => {
+                console.log(`Received ${wordleMessages.size} messages`);
                 //Iterate through the messages here with the variable "messages".
-                messages.forEach(message => { 
-                    if (isWordleMessage(message)) {
-                        const score = parseInt(message.content.split('\n')[0].split(' ')[2].split('/')[0]);
-                        if (score <= lowestScore) {
+                wordleMessages.forEach(wordleMessage => {
+                    if (isWordleMessage(wordleMessage)) {
+                        const score = wordleMessage.content.split('\n')[0].split(' ')[2].split('/')[0];
+                        const author = wordleMessage.author.username;
+                        scores[score].push(author);
+                        if (parseInt(score) < lowestScore) { 
                             lowestScore = score;
-                            currentWinners.push(message.author.username);
-                        }
+                        } 
                     }
                 })
-              })
-                wordleChannel.send("Today's best Wordler('s):\n" + currentWinners.join(', ') + "\n" + "Best Score: " + lowestScore);
-              });
+            })
+            setTimeout( () => {
+                console.log(scores);
+                wordleChannel.send("Today's best Wordler('s):\n" + scores[lowestScore] + "\n" + "Best Score: " + lowestScore);
+            }, 500);
+        });
 
 
         //Set the Presence of the bot user
