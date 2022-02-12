@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const { prefix, token } = require("./config.json");
 
 const { Client, Intents, Collection } = require('discord.js');
