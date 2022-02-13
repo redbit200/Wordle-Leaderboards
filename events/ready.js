@@ -7,7 +7,7 @@ module.exports = {
         //Log Bot's username and the amount of servers its in to console
         console.log(`${bot.user.username} is online on ${bot.guilds.cache.size} servers!`);
 
-        let recap = new cron.CronJob('59 4 * * *', () => {
+        let recap = new cron.CronJob('59 23 * * *', () => {
             if(wotdCommand) wotdCommand.run(bot);
         });
 
