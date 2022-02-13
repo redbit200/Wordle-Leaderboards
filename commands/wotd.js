@@ -40,11 +40,12 @@ exports.run = async (bot, message = false, args = []) => {
               },
               {
                 "name": ":crown: Winners",
-                "value": String(scores[lowestScore].join('\n')),
+                "value": (scores[lowestScore].length >= 1 ? String(scores[lowestScore].join('\n')) : 'No winners yet!'),
                 "inline": true
               }
             ]
         };
+
         if (message == false) {
             embed.title = 'Daily Wordle Recap'
             wordleChannel.send({embeds: [embed]});
