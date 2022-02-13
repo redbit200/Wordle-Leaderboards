@@ -1,6 +1,6 @@
 exports.run = async (bot, message = false, args = []) => {
 
-    let scores = { '1': [], '2': ['collin'], '3': [], '4': [], '5': [], '6': [], 'X': [] };
+    let scores = { '1': [], '2': [''], '3': [], '4': [], '5': [], '6': [], 'X': [] };
     let lowestScore = 6;
     const today = new Date();
     const wordleChannel = bot.channels.cache.get('936688898137010277');
@@ -40,7 +40,7 @@ exports.run = async (bot, message = false, args = []) => {
               },
               {
                 "name": ":crown: Winners",
-                "value": (scores[lowestScore].length >= 1 ? String(scores[lowestScore].join('\n')) : 'No winners yet!'),
+                "value": (scores[lowestScore].length >= 1 ? String(scores[lowestScore].join('\n')) : 'No winners'),
                 "inline": true
               }
             ]
