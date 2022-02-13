@@ -1,7 +1,8 @@
 exports.run = async (bot, message = false, args = []) => {
 
-    let scores = { '1': [], '2': [], '3': [], '4': [], '5': [], '6': [], 'X': [] };
+    let scores = { '1': [], '2': ['collin'], '3': [], '4': [], '5': [], '6': [], 'X': [] };
     let lowestScore = 6;
+    const today = new Date();
     const wordleChannel = bot.channels.cache.get('936688898137010277');
     wordleChannel.messages.fetch({ limit: 100 }).then(wordleMessages => {
         //Iterate through the messages here with the variable "messages".
@@ -16,11 +17,39 @@ exports.run = async (bot, message = false, args = []) => {
             }
         })
     })
+
     setTimeout( () => {
+        let embed = {
+            "title": "Wordle Recap",
+            "description": "The results are in... :drum:",
+            "url": "",
+            "color": 7259656,
+            "timestamp": String(today),
+            "footer": {
+              "icon_url": String(bot.user.avatarURL()),
+              "text": "Daily Wordle Recap"
+            },
+            "thumbnail": {
+              "url": String(bot.user.avatarURL())
+            },
+            "fields": [
+              {
+                "name": ":star2: Best Score",
+                "value": String(lowestScore),
+                "inline": true
+              },
+              {
+                "name": ":crown: Winners",
+                "value": String(scores[lowestScore].join('\n')),
+                "inline": true
+              }
+            ]
+        };
         if (message == false) {
-            wordleChannel.send("Today's best Wordler('s):\n" + scores[lowestScore] + "\n" + "Best Score: " + lowestScore);
+            embed.title = 'Daily Wordle Recap'
+            wordleChannel.send({embeds: [embed]});
         } else {
-            message.channel.send("Today's best Wordler('s):\n" + scores[lowestScore] + "\n" + "Best Score: " + lowestScore);
+            message.channel.send({embeds: [embed]});
         }
     }, 500);
 }
